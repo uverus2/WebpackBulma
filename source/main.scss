@@ -1,0 +1,11 @@
+@import "../node_modules/bulma/bulma.sass";
+// Base Files
+// Layout Files
+@import "sass/layout/mainLayout.scss"; //Page Files
+.hero {
+    background-image: url(img/20181120_092709-1.jpg);
+    height: 45vw;
+    padding: 0px 10px 0px 10px;
+    width: 100%;
+    background-repeat: no-repeat;
+}
