@@ -7,17 +7,11 @@ var CleanWebpackPlugin = require('clean-webpack-plugin'); // ensures new dist is
 var CopyWebpackPlugin = require('copy-webpack-plugin'); //copy assests to dist folder
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var PhpLoad = require('php-loader');
-
-
-
-
-
-var extractPlugin = new ExtractTextPlugin({ //defines what to be extracted 
-    filename: 'main.css'
-});
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 module.exports = {
+    mode: 'none',
     entry: './source/js/app.js', //entry location to form the bundle
     output: {
 
@@ -52,16 +46,15 @@ module.exports = {
 
 
             {
-
-                test: /\.scss$/, //test for files with sass extentions 
-                use: extractPlugin.extract({
-
-                    use: ['css-loader', 'postcss-loader', 'sass-loader']
-                })
-
-
-
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
             },
+
 
             {
                 test: /\.php$/,
@@ -120,7 +113,10 @@ module.exports = {
 
 
 
-        extractPlugin,
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+
+        }),
 
         // new FaviconsWebpackPlugin('./source/img/facivon.png'),
 
@@ -128,8 +124,8 @@ module.exports = {
 
             { from: 'source/fonts', to: 'fonts' }
         ]),
-        
-         new CopyWebpackPlugin([
+
+        new CopyWebpackPlugin([
 
             { from: 'source/php', to: 'php' }
         ]),
